@@ -34,7 +34,7 @@ export default function Dashboard() {
   const onboardingComplete = useFinanceStore((s) => s.settings.onboardingComplete);
   const updateSettings = useFinanceStore((s) => s.updateSettings);
 
-  const { selectedMonth, goToPrevious, goToNext } = useMonthSelector();
+  const { selectedMonth, goToPrevious, goToNext, goToMonth } = useMonthSelector();
 
   const hasAnyData =
     incomeSources.length > 0 || fixedExpenses.length > 0 || variableExpenses.length > 0;
@@ -125,7 +125,12 @@ export default function Dashboard() {
       <Header title="Painel" subtitle="Sua visão geral financeira" />
 
       <div className="mt-4 flex justify-start">
-        <MonthSelector monthKey={selectedMonth} onPrevious={goToPrevious} onNext={goToNext} />
+        <MonthSelector
+          monthKey={selectedMonth}
+          onPrevious={goToPrevious}
+          onNext={goToNext}
+          onSelectMonth={goToMonth}
+        />
       </div>
 
       <div className="mt-3">
