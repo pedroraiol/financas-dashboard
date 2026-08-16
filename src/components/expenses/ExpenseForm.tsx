@@ -128,7 +128,9 @@ export default function ExpenseForm({
 
         <Input
           label="Nome da despesa"
-          placeholder={kind === "fixed" ? "Ex.: Aluguel, Internet..." : "Ex.: Supermercado, Cinema..."}
+          placeholder={
+            kind === "fixed" ? "Ex.: Aluguel, Internet..." : "Ex.: Supermercado, Cinema..."
+          }
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -145,7 +147,10 @@ export default function ExpenseForm({
           label="Categoria"
           value={category}
           onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
-          options={EXPENSE_CATEGORY_ORDER.map((c) => ({ value: c, label: EXPENSE_CATEGORY_LABELS[c] }))}
+          options={EXPENSE_CATEGORY_ORDER.map((c) => ({
+            value: c,
+            label: EXPENSE_CATEGORY_LABELS[c],
+          }))}
         />
 
         {kind === "fixed" ? (

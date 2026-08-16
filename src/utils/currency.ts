@@ -6,10 +6,7 @@ const LOCALE_BY_CURRENCY: Record<AppSettings["currency"], string> = {
   EUR: "de-DE",
 };
 
-export function formatCurrency(
-  value: number,
-  currency: AppSettings["currency"] = "BRL",
-): string {
+export function formatCurrency(value: number, currency: AppSettings["currency"] = "BRL"): string {
   return new Intl.NumberFormat(LOCALE_BY_CURRENCY[currency], {
     style: "currency",
     currency,
@@ -39,7 +36,10 @@ export function formatPercent(value: number): string {
 
 /** Converte string de input (aceita vírgula ou ponto) em número. */
 export function parseAmountInput(raw: string): number {
-  const normalized = raw.replace(/\./g, "").replace(",", ".").replace(/[^\d.-]/g, "");
+  const normalized = raw
+    .replace(/\./g, "")
+    .replace(",", ".")
+    .replace(/[^\d.-]/g, "");
   const value = parseFloat(normalized);
   return Number.isFinite(value) ? value : 0;
 }

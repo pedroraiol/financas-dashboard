@@ -2,12 +2,7 @@
 // Tudo é persistido no localStorage do navegador (ver src/store/useFinanceStore.ts).
 
 export type IncomeCategory =
-  | "salario"
-  | "freelance"
-  | "investimentos"
-  | "beneficios"
-  | "aluguel_recebido"
-  | "outro";
+  "salario" | "freelance" | "investimentos" | "beneficios" | "aluguel_recebido" | "outro";
 
 export type ExpenseCategory =
   | "moradia"

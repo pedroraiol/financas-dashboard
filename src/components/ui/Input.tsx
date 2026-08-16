@@ -12,7 +12,10 @@ export default function Input({ label, help, error, className, id, ...rest }: In
   const inputId = id ?? `input-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={inputId} className="flex items-center gap-1.5 text-sm font-medium text-ink-primary-light dark:text-ink-primary-dark">
+      <label
+        htmlFor={inputId}
+        className="flex items-center gap-1.5 text-sm font-medium text-ink-primary-light dark:text-ink-primary-dark"
+      >
         {label}
         {help && <HelpTip text={help} />}
       </label>
@@ -21,7 +24,8 @@ export default function Input({ label, help, error, className, id, ...rest }: In
         className={clsx(
           "rounded-lg border bg-transparent px-3 py-2.5 text-sm outline-none transition-colors",
           "border-ink-muted/40 focus:border-series-1 focus:ring-2 focus:ring-series-1/20",
-          error && "border-status-critical focus:border-status-critical focus:ring-status-critical/20",
+          error &&
+            "border-status-critical focus:border-status-critical focus:ring-status-critical/20",
           className,
         )}
         aria-invalid={!!error}

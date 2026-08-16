@@ -35,6 +35,20 @@ npm run preview   # para testar a versão de produção localmente
 Os arquivos finais ficam na pasta `dist/` e podem ser publicados em qualquer serviço de hospedagem
 estática (Netlify, Vercel, GitHub Pages, etc.) — não é necessário nenhum backend/servidor.
 
+O app é um PWA: pode ser instalado ("Adicionar à tela inicial") e continua abrindo offline depois da
+primeira visita, já que tanto a interface quanto os dados (localStorage) são 100% locais.
+
+## Qualidade de código
+
+```bash
+npm run typecheck   # checagem de tipos (TypeScript)
+npm run lint        # ESLint (inclui regras de acessibilidade)
+npm run test        # testes unitários (Vitest)
+npm run format      # formata o código com Prettier
+```
+
+Um workflow em `.github/workflows/ci.yml` roda essas quatro checagens + o build a cada push/PR.
+
 ## Estrutura do projeto
 
 ```

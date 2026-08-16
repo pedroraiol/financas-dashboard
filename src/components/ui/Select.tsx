@@ -17,7 +17,10 @@ export default function Select({ label, options, help, className, id, ...rest }:
   const selectId = id ?? `select-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={selectId} className="flex items-center gap-1.5 text-sm font-medium text-ink-primary-light dark:text-ink-primary-dark">
+      <label
+        htmlFor={selectId}
+        className="flex items-center gap-1.5 text-sm font-medium text-ink-primary-light dark:text-ink-primary-dark"
+      >
         {label}
         {help && <HelpTip text={help} />}
       </label>

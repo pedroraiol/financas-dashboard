@@ -18,8 +18,7 @@ import {
 } from "../utils/crypto";
 
 type StoredEntry =
-  | { encrypted: false; data: ProfileData }
-  | { encrypted: true; blob: EncryptedBlob };
+  { encrypted: false; data: ProfileData } | { encrypted: true; blob: EncryptedBlob };
 
 interface FinanceState {
   profiles: ProfileMeta[];
@@ -368,7 +367,9 @@ export const useFinanceStore = create<FinanceState>()(
           const id = makeId();
           const data = emptyProfileData();
           set({
-            profiles: [{ id, name: "Perfil 1", createdAt: new Date().toISOString(), hasPin: false }],
+            profiles: [
+              { id, name: "Perfil 1", createdAt: new Date().toISOString(), hasPin: false },
+            ],
             activeProfileId: id,
             dataByProfile: { [id]: { encrypted: false, data } },
             locked: false,
@@ -414,7 +415,9 @@ export const useFinanceStore = create<FinanceState>()(
             settings: old?.settings ?? defaultSettings,
           };
           return {
-            profiles: [{ id, name: "Perfil 1", createdAt: new Date().toISOString(), hasPin: false }],
+            profiles: [
+              { id, name: "Perfil 1", createdAt: new Date().toISOString(), hasPin: false },
+            ],
             activeProfileId: id,
             dataByProfile: { [id]: { encrypted: false, data } },
           };

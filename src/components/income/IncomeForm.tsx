@@ -66,7 +66,10 @@ export default function IncomeForm({ initial, onSave, onClose }: IncomeFormProps
           label="Categoria"
           value={category}
           onChange={(e) => setCategory(e.target.value as IncomeSource["category"])}
-          options={INCOME_CATEGORY_ORDER.map((c) => ({ value: c, label: INCOME_CATEGORY_LABELS[c] }))}
+          options={INCOME_CATEGORY_ORDER.map((c) => ({
+            value: c,
+            label: INCOME_CATEGORY_LABELS[c],
+          }))}
         />
         <Input
           label="Recebendo desde"

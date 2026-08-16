@@ -1,10 +1,5 @@
 import ExcelJS from "exceljs";
-import type {
-  AppSettings,
-  FixedExpense,
-  IncomeSource,
-  VariableExpense,
-} from "../types";
+import type { AppSettings, FixedExpense, IncomeSource, VariableExpense } from "../types";
 import { EXPENSE_CATEGORY_LABELS, INCOME_CATEGORY_LABELS } from "../types";
 import { formatDateShort } from "./date";
 

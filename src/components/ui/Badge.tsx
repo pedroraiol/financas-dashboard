@@ -10,7 +10,13 @@ const toneClasses: Record<Tone, string> = {
   info: "bg-series-1/10 text-series-1",
 };
 
-export default function Badge({ children, tone = "neutral" }: { children: ReactNode; tone?: Tone }) {
+export default function Badge({
+  children,
+  tone = "neutral",
+}: {
+  children: ReactNode;
+  tone?: Tone;
+}) {
   return (
     <span
       className={clsx(
