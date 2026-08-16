@@ -7,6 +7,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      // Registro próprio em src/registerServiceWorker.ts, pra recarregar a aba sozinho
+      // quando uma versão nova assume o controle (ver esse arquivo pro motivo).
+      injectRegister: false,
       includeAssets: ["favicon.svg"],
       manifest: {
         name: "Meu Painel Financeiro",
