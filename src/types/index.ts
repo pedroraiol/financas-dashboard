@@ -64,6 +64,21 @@ export interface AppSettings {
   onboardingComplete: boolean;
 }
 
+/** Um perfil = um conjunto isolado de dados (ex.: uma pessoa usando o mesmo aparelho). */
+export interface ProfileMeta {
+  id: string;
+  name: string;
+  createdAt: string;
+  hasPin: boolean;
+}
+
+export interface ProfileData {
+  incomeSources: IncomeSource[];
+  fixedExpenses: FixedExpense[];
+  variableExpenses: VariableExpense[];
+  settings: AppSettings;
+}
+
 export const INCOME_CATEGORY_LABELS: Record<IncomeCategory, string> = {
   salario: "Salário",
   freelance: "Freelance / Autônomo",

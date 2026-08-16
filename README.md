@@ -7,6 +7,13 @@ categoria e mais.
 Todos os dados ficam salvos **apenas no seu navegador** (localStorage) — nada é enviado para servidores.
 Você pode exportar/importar um backup em JSON a qualquer momento na tela de Configurações.
 
+Suporta **múltiplos perfis** no mesmo navegador (ex.: um aparelho compartilhado entre duas pessoas
+da família) — cada perfil tem suas próprias receitas, despesas e configurações, totalmente isoladas.
+Um perfil pode opcionalmente ter um **PIN**: os dados desse perfil ficam criptografados (AES-GCM) no
+localStorage, ilegíveis sem o PIN — inclusive por quem abrir as ferramentas de desenvolvedor do
+navegador. Não existe recuperação de PIN esquecido, já que não há servidor guardando isso em lugar
+nenhum; a única saída é apagar o perfil e recomeçar.
+
 ## Como rodar
 
 Pré-requisitos: [Node.js](https://nodejs.org) 18 ou mais recente instalado.
@@ -38,10 +45,11 @@ src/
     dashboard/    # Cartões de indicadores e gráficos do painel
     income/       # Formulário e lista de receitas
     expenses/     # Formulário e lista de despesas
+    profile/      # Troca de perfil, tela de bloqueio por PIN, gerenciamento de perfis
   pages/          # As 4 telas: Painel, Receitas, Despesas, Configurações
   store/          # Estado global da aplicação (Zustand) com persistência automática
   types/          # Modelos de dados (receita, despesa fixa, despesa variável...)
-  utils/          # Cálculos financeiros, formatação de moeda/data, backup
+  utils/          # Cálculos financeiros, formatação de moeda/data, backup, criptografia de PIN
   hooks/          # Hooks de tema (claro/escuro) e seleção de mês
 ```
 

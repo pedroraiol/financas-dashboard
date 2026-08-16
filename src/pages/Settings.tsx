@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import Select from "../components/ui/Select";
 import Input from "../components/ui/Input";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
+import ProfileManager from "../components/profile/ProfileManager";
 import { useFinanceStore } from "../store/useFinanceStore";
 import type { AppSettings } from "../types";
 import { downloadBackup, parseBackupFile } from "../utils/backup";
@@ -57,6 +58,8 @@ export default function Settings() {
       <Header title="Configurações" subtitle="Personalize o painel e gerencie seus dados" />
 
       <div className="mt-5 flex flex-col gap-4">
+        <ProfileManager />
+
         <Card title="Preferências">
           <div className="flex flex-col gap-4 sm:max-w-sm">
             <Select
@@ -96,7 +99,10 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card title="Seus dados" subtitle="Tudo fica salvo apenas neste navegador, no seu computador">
+        <Card
+          title="Seus dados"
+          subtitle="Tudo fica salvo apenas neste navegador — exportar/importar e apagar afetam só o perfil ativo"
+        >
           <div className="flex items-start gap-3 rounded-lg bg-series-1/5 p-3 text-xs text-ink-secondary-light dark:text-ink-secondary-dark">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-series-1" />
             <p>
@@ -135,7 +141,7 @@ export default function Settings() {
       {confirmReset && (
         <ConfirmDialog
           title="Apagar todos os dados"
-          message="Isso vai remover permanentemente todas as suas receitas e despesas cadastradas neste navegador. Considere exportar um backup antes."
+          message="Isso vai remover permanentemente todas as receitas e despesas do perfil ativo (os outros perfis não são afetados). Considere exportar um backup antes."
           confirmLabel="Apagar tudo"
           onCancel={() => setConfirmReset(false)}
           onConfirm={() => {

@@ -1,6 +1,8 @@
-import { Moon, Sun, Monitor } from "lucide-react";
+import { useState } from "react";
+import { Moon, Sun, Monitor, UserRound, Lock } from "lucide-react";
 import { useFinanceStore } from "../../store/useFinanceStore";
 import type { AppSettings } from "../../types";
+import ProfileSwitcherModal from "../profile/ProfileSwitcherModal";
 
 const THEME_CYCLE: AppSettings["theme"][] = ["system", "light", "dark"];
 const THEME_ICON: Record<AppSettings["theme"], typeof Sun> = {
@@ -17,6 +19,12 @@ const THEME_LABEL: Record<AppSettings["theme"], string> = {
 export default function Header({ title, subtitle }: { title: string; subtitle?: string }) {
   const theme = useFinanceStore((s) => s.settings.theme);
   const updateSettings = useFinanceStore((s) => s.updateSettings);
+  const profiles = useFinanceStore((s) => s.profiles);
+  const activeProfileId = useFinanceStore((s) => s.activeProfileId);
+  const lockActiveProfile = useFinanceStore((s) => s.lockActiveProfile);
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
+
+  const [switcherOpen, setSwitcherOpen] = useState(false);
 
   const Icon = THEME_ICON[theme];
 
@@ -35,14 +43,36 @@ export default function Header({ title, subtitle }: { title: string; subtitle?: 
           <p className="text-sm text-ink-secondary-light dark:text-ink-secondary-dark">{subtitle}</p>
         )}
       </div>
-      <button
-        onClick={cycleTheme}
-        title={THEME_LABEL[theme]}
-        aria-label={THEME_LABEL[theme]}
-        className="rounded-full p-2 text-ink-secondary-light dark:text-ink-secondary-dark hover:bg-black/5 dark:hover:bg-white/10"
-      >
-        <Icon size={18} />
-      </button>
+      <div className="flex items-center gap-1.5">
+        <button
+          onClick={() => setSwitcherOpen(true)}
+          title="Perfis"
+          className="flex items-center gap-1.5 rounded-full border border-ink-muted/30 py-1.5 pl-2.5 pr-3 text-xs font-medium text-ink-secondary-light dark:text-ink-secondary-dark hover:bg-black/5 dark:hover:bg-white/10"
+        >
+          <UserRound size={14} />
+          <span className="max-w-[100px] truncate">{activeProfile?.name}</span>
+        </button>
+        {activeProfile?.hasPin && (
+          <button
+            onClick={lockActiveProfile}
+            title="Bloquear perfil agora"
+            aria-label="Bloquear perfil agora"
+            className="rounded-full p-2 text-ink-secondary-light dark:text-ink-secondary-dark hover:bg-black/5 dark:hover:bg-white/10"
+          >
+            <Lock size={16} />
+          </button>
+        )}
+        <button
+          onClick={cycleTheme}
+          title={THEME_LABEL[theme]}
+          aria-label={THEME_LABEL[theme]}
+          className="rounded-full p-2 text-ink-secondary-light dark:text-ink-secondary-dark hover:bg-black/5 dark:hover:bg-white/10"
+        >
+          <Icon size={18} />
+        </button>
+      </div>
+
+      {switcherOpen && <ProfileSwitcherModal onClose={() => setSwitcherOpen(false)} />}
     </header>
   );
 }
