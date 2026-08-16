@@ -112,12 +112,12 @@ export default function Settings() {
 
         <Card
           title="Seus dados"
-          subtitle="Tudo fica salvo apenas neste navegador — exportar/importar e apagar afetam só o perfil ativo"
+          subtitle="Tudo fica salvo apenas neste navegador. Exportar/importar e apagar afetam só o perfil ativo"
         >
           <div className="flex items-start gap-3 rounded-lg bg-series-1/5 p-3 text-xs text-ink-secondary-light dark:text-ink-secondary-dark">
             <ShieldCheck size={16} className="mt-0.5 shrink-0 text-series-1" />
             <p>
-              Este painel não envia suas informações financeiras para nenhum servidor. Recomendamos
+              Este painel não envia suas informações financeiras para nenhum servidor. Recomendo
               exportar um backup periodicamente, especialmente antes de limpar o navegador ou trocar de
               computador.
             </p>
@@ -139,7 +139,7 @@ export default function Settings() {
             />
           </div>
           <p className="mt-1.5 text-xs text-ink-muted">
-            O backup em JSON é o único formato que pode ser importado de volta — use-o pra restaurar
+            O backup em JSON é o único formato que pode ser importado de volta, use-o pra restaurar
             ou migrar seus dados.
           </p>
           {importError && <p className="mt-2 text-xs text-status-critical">{importError}</p>}
@@ -156,7 +156,7 @@ export default function Settings() {
             </Button>
             <p className="mt-1.5 text-xs text-ink-muted">
               Gera um .xlsx com abas de receitas, despesas fixas e variáveis, pra abrir no Excel,
-              Google Sheets ou Numbers. Serve só pra consulta/análise — não pode ser reimportado aqui.
+              Google Sheets ou Numbers. Serve só pra consulta/análise. Não pode ser reimportado aqui.
             </p>
           </div>
 
