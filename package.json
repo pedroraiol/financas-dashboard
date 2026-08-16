@@ -10,13 +10,14 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "date-fns": "^3.6.0",
+    "exceljs": "^4.4.0",
+    "lucide-react": "^0.445.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "zustand": "^4.5.5",
     "recharts": "^2.12.7",
-    "date-fns": "^3.6.0",
-    "lucide-react": "^0.445.0"
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.5",

@@ -7,6 +7,9 @@ export default defineConfig({
     port: 5173,
   },
   build: {
+    // O chunk do exceljs (~940kB) só carrega sob demanda ao exportar planilha
+    // (import dinâmico em utils/spreadsheet.ts), então não pesa no carregamento inicial.
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {

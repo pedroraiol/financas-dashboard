@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent } from "react";
-import { Download, Upload, Trash2, ShieldCheck } from "lucide-react";
+import { Download, FileSpreadsheet, Upload, Trash2, ShieldCheck } from "lucide-react";
 import Header from "../components/layout/Header";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
@@ -24,9 +24,20 @@ export default function Settings() {
   const [importError, setImportError] = useState("");
   const [importSuccess, setImportSuccess] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [exportingSheet, setExportingSheet] = useState(false);
 
   const handleExport = () => {
     downloadBackup({ incomeSources, fixedExpenses, variableExpenses, settings });
+  };
+
+  const handleExportSpreadsheet = async () => {
+    setExportingSheet(true);
+    try {
+      const { downloadSpreadsheet } = await import("../utils/spreadsheet");
+      await downloadSpreadsheet({ incomeSources, fixedExpenses, variableExpenses, settings });
+    } finally {
+      setExportingSheet(false);
+    }
   };
 
   const handleImportClick = () => fileInputRef.current?.click();
@@ -114,7 +125,7 @@ export default function Settings() {
 
           <div className="mt-4 flex flex-wrap gap-2">
             <Button variant="secondary" icon={<Download size={16} />} onClick={handleExport}>
-              Exportar backup
+              Exportar backup (JSON)
             </Button>
             <Button variant="secondary" icon={<Upload size={16} />} onClick={handleImportClick}>
               Importar backup
@@ -127,8 +138,27 @@ export default function Settings() {
               onChange={handleFileChange}
             />
           </div>
+          <p className="mt-1.5 text-xs text-ink-muted">
+            O backup em JSON é o único formato que pode ser importado de volta — use-o pra restaurar
+            ou migrar seus dados.
+          </p>
           {importError && <p className="mt-2 text-xs text-status-critical">{importError}</p>}
           {importSuccess && <p className="mt-2 text-xs text-status-good">Backup importado com sucesso!</p>}
+
+          <div className="mt-4 border-t border-black/5 dark:border-white/10 pt-4">
+            <Button
+              variant="secondary"
+              icon={<FileSpreadsheet size={16} />}
+              onClick={handleExportSpreadsheet}
+              disabled={exportingSheet}
+            >
+              {exportingSheet ? "Gerando planilha..." : "Exportar planilha (Excel)"}
+            </Button>
+            <p className="mt-1.5 text-xs text-ink-muted">
+              Gera um .xlsx com abas de receitas, despesas fixas e variáveis, pra abrir no Excel,
+              Google Sheets ou Numbers. Serve só pra consulta/análise — não pode ser reimportado aqui.
+            </p>
+          </div>
 
           <div className="mt-5 border-t border-black/5 dark:border-white/10 pt-4">
             <Button variant="danger" icon={<Trash2 size={16} />} onClick={() => setConfirmReset(true)}>
