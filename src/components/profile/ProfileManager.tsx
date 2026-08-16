@@ -7,6 +7,7 @@ import Modal from "../ui/Modal";
 import Badge from "../ui/Badge";
 import clsx from "../../utils/clsx";
 import { useFinanceStore } from "../../store/useFinanceStore";
+import { useToast } from "../ui/ToastProvider";
 import type { ProfileMeta } from "../../types";
 
 export default function ProfileManager() {
@@ -16,6 +17,7 @@ export default function ProfileManager() {
   const renameProfile = useFinanceStore((s) => s.renameProfile);
   const deleteProfile = useFinanceStore((s) => s.deleteProfile);
   const setProfilePin = useFinanceStore((s) => s.setProfilePin);
+  const toast = useToast();
 
   const [renaming, setRenaming] = useState<ProfileMeta | null>(null);
   const [deleting, setDeleting] = useState<ProfileMeta | null>(null);
@@ -36,7 +38,10 @@ export default function ProfileManager() {
                 : "hover:bg-black/5 dark:hover:bg-white/5",
             )}
           >
-            <UserRound size={16} className="shrink-0 text-ink-secondary-light dark:text-ink-secondary-dark" />
+            <UserRound
+              size={16}
+              className="shrink-0 text-ink-secondary-light dark:text-ink-secondary-dark"
+            />
             <span className="flex-1 truncate font-medium text-ink-primary-light dark:text-ink-primary-dark">
               {p.name}
             </span>
@@ -97,13 +102,22 @@ export default function ProfileManager() {
           onClose={() => setRenaming(null)}
           onSave={(name) => {
             renameProfile(renaming.id, name);
+            toast.success("Perfil renomeado");
             setRenaming(null);
           }}
         />
       )}
 
       {deleting && (
-        <DeleteProfileModal profile={deleting} onClose={() => setDeleting(null)} onDelete={deleteProfile} />
+        <DeleteProfileModal
+          profile={deleting}
+          onClose={() => setDeleting(null)}
+          onDelete={(id) => {
+            const ok = deleteProfile(id);
+            if (ok) toast.success("Perfil excluído");
+            return ok;
+          }}
+        />
       )}
 
       {pinModalOpen && activeProfile && (
@@ -111,6 +125,7 @@ export default function ProfileManager() {
           profile={activeProfile}
           onClose={() => setPinModalOpen(false)}
           setProfilePin={setProfilePin}
+          onSuccess={(removed) => toast.success(removed ? "PIN removido" : "PIN salvo")}
         />
       )}
     </Card>
@@ -136,7 +151,12 @@ function RenameModal({
         }}
         className="flex flex-col gap-4"
       >
-        <Input label="Nome do perfil" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
+        <Input
+          label="Nome do perfil"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoFocus
+        />
         <div className="mt-2 flex justify-end gap-2">
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancelar
@@ -200,10 +220,12 @@ function PinModal({
   profile,
   onClose,
   setProfilePin,
+  onSuccess,
 }: {
   profile: ProfileMeta;
   onClose: () => void;
   setProfilePin: (newPin: string | null, currentPin?: string) => Promise<boolean>;
+  onSuccess: (removed: boolean) => void;
 }) {
   const [currentPin, setCurrentPin] = useState("");
   const [newPin, setNewPin] = useState("");
@@ -232,12 +254,16 @@ function PinModal({
     }
 
     setBusy(true);
-    const ok = await setProfilePin(removing ? null : newPin, profile.hasPin ? currentPin : undefined);
+    const ok = await setProfilePin(
+      removing ? null : newPin,
+      profile.hasPin ? currentPin : undefined,
+    );
     setBusy(false);
     if (!ok) {
       setError("PIN atual incorreto.");
       return;
     }
+    onSuccess(removing);
     onClose();
   };
 
@@ -299,8 +325,8 @@ function PinModal({
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="submit" variant={removing ? "danger" : "primary"} disabled={busy}>
-            {busy ? "Salvando..." : removing ? "Remover PIN" : "Salvar PIN"}
+          <Button type="submit" variant={removing ? "danger" : "primary"} loading={busy}>
+            {removing ? "Remover PIN" : "Salvar PIN"}
           </Button>
         </div>
       </form>

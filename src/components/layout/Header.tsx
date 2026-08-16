@@ -36,11 +36,13 @@ export default function Header({ title, subtitle }: { title: string; subtitle?: 
   return (
     <header className="flex items-center justify-between border-b border-black/5 dark:border-white/10 bg-surface-light/80 dark:bg-surface-dark/80 px-5 py-4 backdrop-blur">
       <div>
-        <h1 className="text-lg font-semibold text-ink-primary-light dark:text-ink-primary-dark">
+        <h1 className="text-2xl font-bold tracking-tight text-ink-primary-light dark:text-ink-primary-dark">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-sm text-ink-secondary-light dark:text-ink-secondary-dark">{subtitle}</p>
+          <p className="text-sm text-ink-secondary-light dark:text-ink-secondary-dark">
+            {subtitle}
+          </p>
         )}
       </div>
       <div className="flex items-center gap-1.5">

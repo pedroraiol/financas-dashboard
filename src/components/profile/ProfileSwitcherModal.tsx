@@ -5,12 +5,14 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import clsx from "../../utils/clsx";
 import { useFinanceStore } from "../../store/useFinanceStore";
+import { useToast } from "../ui/ToastProvider";
 
 export default function ProfileSwitcherModal({ onClose }: { onClose: () => void }) {
   const profiles = useFinanceStore((s) => s.profiles);
   const activeProfileId = useFinanceStore((s) => s.activeProfileId);
   const switchProfile = useFinanceStore((s) => s.switchProfile);
   const createProfile = useFinanceStore((s) => s.createProfile);
+  const toast = useToast();
 
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
@@ -40,6 +42,7 @@ export default function ProfileSwitcherModal({ onClose }: { onClose: () => void 
     setBusy(true);
     await createProfile(name.trim(), usePin ? pin : undefined);
     setBusy(false);
+    toast.success("Perfil criado");
     onClose();
   };
 
@@ -66,8 +69,8 @@ export default function ProfileSwitcherModal({ onClose }: { onClose: () => void 
           {usePin && (
             <>
               <div className="rounded-lg bg-series-1/5 p-3 text-xs text-ink-secondary-light dark:text-ink-secondary-dark">
-                Sem esse PIN não é possível recuperar os dados desse perfil depois — anote em
-                lugar seguro.
+                Sem esse PIN não é possível recuperar os dados desse perfil depois — anote em lugar
+                seguro.
               </div>
               <Input
                 label="PIN"
@@ -90,8 +93,8 @@ export default function ProfileSwitcherModal({ onClose }: { onClose: () => void 
             <Button type="button" variant="secondary" onClick={() => setCreating(false)}>
               Voltar
             </Button>
-            <Button type="submit" disabled={busy}>
-              {busy ? "Criando..." : "Criar perfil"}
+            <Button type="submit" loading={busy}>
+              Criar perfil
             </Button>
           </div>
         </form>

@@ -17,22 +17,15 @@ export interface MonthSummary {
   savingsRate: number; // 0..1 (pode ser negativo)
 }
 
-export function activeIncomeForMonth(
-  sources: IncomeSource[],
-  monthK: string,
-): IncomeSource[] {
-  return sources.filter(
-    (s) => s.active && rangeCoversMonth(s.startDate, s.endDate, monthK),
-  );
+export function activeIncomeForMonth(sources: IncomeSource[], monthK: string): IncomeSource[] {
+  return sources.filter((s) => s.active && rangeCoversMonth(s.startDate, s.endDate, monthK));
 }
 
 export function activeFixedExpensesForMonth(
   expenses: FixedExpense[],
   monthK: string,
 ): FixedExpense[] {
-  return expenses.filter(
-    (e) => e.active && rangeCoversMonth(e.startDate, e.endDate, monthK),
-  );
+  return expenses.filter((e) => e.active && rangeCoversMonth(e.startDate, e.endDate, monthK));
 }
 
 export function variableExpensesForMonth(
@@ -48,9 +41,7 @@ export function summarizeMonth(
   variableExpenses: VariableExpense[],
   monthK: string,
 ): MonthSummary {
-  const totalIncome = sum(
-    activeIncomeForMonth(incomeSources, monthK).map((s) => s.amount),
-  );
+  const totalIncome = sum(activeIncomeForMonth(incomeSources, monthK).map((s) => s.amount));
   const totalFixedExpenses = sum(
     activeFixedExpensesForMonth(fixedExpenses, monthK).map((e) => e.amount),
   );
@@ -123,6 +114,76 @@ export function incomeByCategory(
 
 function sum(values: number[]): number {
   return values.reduce((acc, v) => acc + v, 0);
+}
+
+export type ActivityItem =
+  | {
+      id: string;
+      kind: "income";
+      name: string;
+      category: IncomeCategory;
+      date: string;
+      amount: number;
+    }
+  | {
+      id: string;
+      kind: "expense";
+      name: string;
+      category: ExpenseCategory;
+      date: string;
+      amount: number;
+    };
+
+/**
+ * "Atividade recente" do mês, a partir do único dado com data pontual real (despesa variável)
+ * mais receitas/despesas fixas cujo início de vigência caiu dentro do mês — não existe um log de
+ * transações no modelo de dados, então isso é o mais próximo de um extrato sem inventar histórico.
+ */
+export function recentActivityForMonth(
+  incomeSources: IncomeSource[],
+  fixedExpenses: FixedExpense[],
+  variableExpenses: VariableExpense[],
+  monthK: string,
+  limit = 8,
+): ActivityItem[] {
+  const items: ActivityItem[] = [];
+
+  for (const s of incomeSources) {
+    if (s.active && dateIsInMonth(s.startDate, monthK)) {
+      items.push({
+        id: s.id,
+        kind: "income",
+        name: s.name,
+        category: s.category,
+        date: s.startDate,
+        amount: s.amount,
+      });
+    }
+  }
+  for (const e of fixedExpenses) {
+    if (e.active && dateIsInMonth(e.startDate, monthK)) {
+      items.push({
+        id: e.id,
+        kind: "expense",
+        name: e.name,
+        category: e.category,
+        date: e.startDate,
+        amount: e.amount,
+      });
+    }
+  }
+  for (const e of variableExpensesForMonth(variableExpenses, monthK)) {
+    items.push({
+      id: e.id,
+      kind: "expense",
+      name: e.name,
+      category: e.category,
+      date: e.date,
+      amount: e.amount,
+    });
+  }
+
+  return items.sort((a, b) => b.date.localeCompare(a.date)).slice(0, limit);
 }
 
 /** Agrupa itens além do top N em "Outros", para manter rankings legíveis. */
