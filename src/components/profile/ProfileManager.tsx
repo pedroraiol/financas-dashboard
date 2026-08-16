@@ -76,7 +76,7 @@ export default function ProfileManager() {
             PIN do perfil ativo ({activeProfile.name})
           </p>
           <p className="mt-1 text-xs text-ink-muted">
-            Protege os dados desse perfil com criptografia — sem o PIN, os dados ficam ilegíveis
+            Protege os dados desse perfil com criptografia. Sem o PIN, os dados ficam ilegíveis
             mesmo pra quem acessar o navegador diretamente.
           </p>
           <Button
