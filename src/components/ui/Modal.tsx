@@ -49,7 +49,11 @@ export default function Modal({ title, onClose, children }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 pt-[env(safe-area-inset-top)] sm:items-center sm:p-4 sm:pt-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/40 px-4"
+      style={{
+        paddingTop: "max(1.5rem, calc(env(safe-area-inset-top) + 1rem))",
+        paddingBottom: "max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem))",
+      }}
       role="presentation"
       // Fechar ao clicar no fundo é um atalho de mouse/touch; o caminho por teclado
       // já é coberto por Escape (acima) e pelo botão "Fechar" abaixo.
@@ -59,7 +63,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         ref={panelRef}
-        className="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-t-card bg-surface-light p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-xl outline-none dark:bg-surface-dark sm:rounded-card sm:pb-6"
+        className="mx-auto w-full max-w-md rounded-card bg-surface-light dark:bg-surface-dark p-6 shadow-xl outline-none"
         role="dialog"
         aria-modal="true"
         aria-label={title}
