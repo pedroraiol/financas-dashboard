@@ -65,7 +65,7 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-black/5 dark:border-white/10 bg-surface-light dark:bg-surface-dark md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-black/5 dark:border-white/10 bg-surface-light dark:bg-surface-dark pb-[env(safe-area-inset-bottom)] md:hidden">
         {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
