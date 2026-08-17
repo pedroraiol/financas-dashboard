@@ -59,20 +59,20 @@ export default function Modal({ title, onClose, children }: ModalProps) {
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         ref={panelRef}
-        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-card bg-surface-light dark:bg-surface-dark p-6 shadow-xl outline-none"
+        className="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-card bg-surface-light dark:bg-surface-dark p-6 shadow-xl outline-none"
         role="dialog"
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-base font-semibold text-ink-primary-light dark:text-ink-primary-dark">
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <h2 className="min-w-0 break-words text-base font-semibold text-ink-primary-light dark:text-ink-primary-dark">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-ink-muted hover:bg-black/5 dark:hover:bg-white/10"
+            className="shrink-0 rounded-full p-1 text-ink-muted hover:bg-black/5 dark:hover:bg-white/10"
             aria-label="Fechar"
           >
             <X size={18} />
