@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 interface ModalProps {
@@ -47,12 +48,12 @@ export default function Modal({ title, onClose, children }: ModalProps) {
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/40 px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 p-4"
       style={{
-        paddingTop: "max(1.5rem, calc(env(safe-area-inset-top) + 1rem))",
-        paddingBottom: "max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem))",
+        paddingTop: "max(1rem, env(safe-area-inset-top))",
+        paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
       }}
       role="presentation"
       // Fechar ao clicar no fundo é um atalho de mouse/touch; o caminho por teclado
@@ -63,7 +64,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <div
         ref={panelRef}
-        className="mx-auto w-full max-w-md rounded-card bg-surface-light dark:bg-surface-dark p-6 shadow-xl outline-none"
+        className="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-card bg-surface-light dark:bg-surface-dark p-6 shadow-xl outline-none"
         role="dialog"
         aria-modal="true"
         aria-label={title}
@@ -84,6 +85,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
