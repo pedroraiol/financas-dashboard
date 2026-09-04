@@ -4,15 +4,15 @@ Painel financeiro pessoal para cadastrar receitas (uma ou várias fontes de rend
 (fixas e variáveis), com gráficos automáticos de receitas x despesas, evolução do saldo, despesas por
 categoria e mais.
 
-Todos os dados ficam salvos **apenas no seu navegador** (localStorage) — nada é enviado para servidores.
+Todos os dados ficam salvos **apenas no seu navegador** (localStorage), nada é enviado para servidores.
 Você pode exportar/importar um backup em JSON a qualquer momento na tela de Configurações.
 
 Suporta **múltiplos perfis** no mesmo navegador (ex.: um aparelho compartilhado entre duas pessoas
-da família) — cada perfil tem suas próprias receitas, despesas e configurações, totalmente isoladas.
+da família) onde cada perfil tem suas próprias receitas, despesas e configurações, totalmente isoladas.
 Um perfil pode opcionalmente ter um **PIN**: os dados desse perfil ficam criptografados (AES-GCM) no
-localStorage, ilegíveis sem o PIN — inclusive por quem abrir as ferramentas de desenvolvedor do
-navegador. Não existe recuperação de PIN esquecido, já que não há servidor guardando isso em lugar
-nenhum; a única saída é apagar o perfil e recomeçar.
+localStorage, ilegíveis sem o PIN (inclusive por quem abrir as ferramentas de desenvolvedor do
+navegador). Não existe recuperação de PIN esquecido, já que não há servidor guardando isso em lugar
+nenhum, a única saída é apagar o perfil e recomeçar.
 
 ## Como rodar
 
@@ -33,7 +33,7 @@ npm run preview   # para testar a versão de produção localmente
 ```
 
 Os arquivos finais ficam na pasta `dist/` e podem ser publicados em qualquer serviço de hospedagem
-estática (Netlify, Vercel, GitHub Pages, etc.) — não é necessário nenhum backend/servidor.
+estática (Netlify, Vercel, GitHub Pages, etc.), não é necessário nenhum backend/servidor.
 
 O app é um PWA: pode ser instalado ("Adicionar à tela inicial") e continua abrindo offline depois da
 primeira visita, já que tanto a interface quanto os dados (localStorage) são 100% locais.
